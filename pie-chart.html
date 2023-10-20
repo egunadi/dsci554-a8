@@ -22,75 +22,6 @@
 
   <script src="js/d3.min.js"></script>
 
-</head>
-
-<body>
-  <h1>🧪 Pie Chart</h1>
-
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="index.html">Labs index</a></li>
-      <li class="breadcrumb-item active" aria-current="page">🧪 Pie chart</li>
-    </ol>
-  </nav>
-
-  <h2>Arc generator</h2>
-
-  <p>See the <a target="_blank" href="https://d3js.org/d3-shape/arc#arc">D3 Arcs API</a>.</p>
-
-  <div>
-    <svg id="arc-test" width="200" height="200" style="background-color: lightgray;"></svg>
-
-    <script>
-      var slice = {  //a slice of pie
-        innerRadius: 0,
-        outerRadius: 100,
-        startAngle: 0,
-        endAngle: Math.PI / 2
-      };
-
-      var arc = d3.arc();
-
-      var svg = d3.select('#arc-test'),
-        width = +svg.attr('width'),
-        height = +svg.attr('height'),
-        g = svg.append('g')
-          .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
-
-      g.append('path')
-        .attr('d', arc(slice))
-        .attr('fill', "red")
-        .attr('stroke', "black");
-    </script>
-
-    <pre><code class="js mt-2" data-trim data-noescape>var slice = {  //a slice of pie
-  innerRadius: 0,
-  outerRadius: 100,
-  startAngle: 0,
-  endAngle: Math.PI / 2
-};
-
-var arc = d3.arc();
-
-var svg = d3.select('#arc-test'),
-  width = +svg.attr('width'),
-  height = +svg.attr('height'),
-  g = svg.append('g')
-    .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
-
-g.append('path')
-  .attr('d', arc(slice))
-  .attr('fill', "red")
-  .attr('stroke', "black");</code></pre>
-  </div>
-
-  <h2>Pie chart example</h2>
-
-  <p>See the <a target="_blank" href="https://d3js.org/d3-shape/pie#pies">D3 Pies API</a>. Chart adapted from <a target="_blank" href="https://bl.ocks.org/mbostock/3887235">Mike Bostock’s
-      Block 3887235</a>.</p>
-
-  <svg id="pie-chart" width="960" height="500"></svg>
-
   <style>
     .arc text {
       font: 10px sans-serif;
@@ -101,29 +32,13 @@ g.append('path')
       stroke: #fff;
     }
   </style>
+</head>
+
+<body>
+  <div>
+  <svg id="pie-chart" width="960" height="500"></svg>
 
   <script>
-    var slice = {  //a slice of pie
-      innerRadius: 0,
-      outerRadius: 100,
-      startAngle: 0,
-      endAngle: Math.PI / 2
-    };
-
-    var arc = d3.arc();
-    console.log(arc(slice));
-
-    var svg = d3.select('#arc-test'),
-      width = +svg.attr('width'),
-      height = +svg.attr('height'),
-      radius = Math.min(width, height) / 2,
-      g = svg.append('g')
-        .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
-
-    var arc = g.append('path')
-      .attr('d', arc(slice))
-      .attr('fill', d => "red");
-
     d3.csv('data.csv', d => {
       d.population = +d.population;
       return d;
@@ -166,87 +81,6 @@ g.append('path')
         .text(d => d.data.age);
     });
   </script>
-
-  <pre><code class="mt-2 html" data-trim data-noescape>&lt;svg id="pie-chart" width="960" height="500"&gt; &lt;/svg&gt;
-
-&lt;style&gt;
-.arc text {
-  font: 10px sans-serif;
-  text-anchor: middle;
-}
-
-.arc path {
-  stroke: #fff;
-}
-&lt;/style&gt;
-
-&lt;script&gt;
-var slice = {  //a slice of pie
-  innerRadius: 0,
-  outerRadius: 100,
-  startAngle: 0,
-  endAngle: Math.PI / 2
-};
-
-var arc = d3.arc();
-console.log(arc(slice));
-
-var svg = d3.select('#arc-test'),
-  width = +svg.attr('width'),
-  height = +svg.attr('height'),
-  radius = Math.min(width, height) / 2,
-  g = svg.append('g')
-    .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
-
-var arc = g.append('path')
-  .attr('d', arc(slice))
-  .attr('fill', d =&gt; "red");
-
-d3.csv('data.csv', d =&gt; {
-  d.population = +d.population;
-  return d;
-}).then(data =&gt; {
-  var svg = d3.select('#pie-chart'),
-    width = +svg.attr('width'),
-    height = +svg.attr('height'),
-    radius = Math.min(width, height) / 2,
-    g = svg.append('g')
-      .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
-
-  var color = d3.scaleOrdinal(['#98abc5', '#8a89a6', '#7b6888', '#6b486b']);
-
-  var pie = d3.pie()
-    .value(d =&gt; d.population)
-    .sort(null)
-    // .sort(function(a, b) { return a.age.localeCompare(b.age); })  //sort by age
-    .sortValues(d3.descending);
-
-  var path = d3.arc()
-    .outerRadius(radius)
-    .innerRadius(0);  //.innerRadius(150);  //make a donut chart by changing the inner radius
-
-  var label = d3.arc()
-    .outerRadius(radius - 40)
-    .innerRadius(radius - 40);
-
-  var arc = g.selectAll('.arc')
-    .data(pie(data))
-    .enter()
-    .append('g')
-    .attr('class', 'arc');
-
-  arc.append('path')
-    .attr('d', path)
-    .attr('fill', d =&gt; color(d.data.age));
-
-  arc.append('text')
-    .attr('transform', d =&gt; 'translate(' + label.centroid(d) + ')')
-    .text(d =&gt; d.data.age);
-});
-&lt;/script&gt;</code></pre>
-
-  <div class="mt-3 text-end"><a href="#"><i class="bi bi-arrow-up"></i> top</a></div>
-
 </body>
 
 </html>
