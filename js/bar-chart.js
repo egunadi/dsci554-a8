@@ -69,7 +69,7 @@ function createBarChart() {
         // Create D3 color scale
         const colorScale = d3.scaleOrdinal()
             .domain(countries)
-            .range(d3.schemeCategory10);
+            .range(d3.schemeTableau10);
 
         groups.selectAll("rect")
             .data((d) => {
