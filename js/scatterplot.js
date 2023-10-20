@@ -48,22 +48,10 @@ function createScatterplot() {
             .domain(countries)
             .range(d3.schemeTableau10);
 
-        // circles.attr("cx", function (d) { return xScaleBubble(d.Year); })
-        //     .attr("cy", function (d) { return yScaleBubble(d.Population); })
-        //     .attr("r", 1.5)
-        //     .style("fill", d => {
-        //             if (d.Country === "Japan") return "#E69F00" 
-        //             if (d.Country === "Korea") return "#56B4E9" 
-        //             if (d.Country === "Indonesia") return "#009E73" 
-        //             if (d.Country === "China") return "#F0E442" 
-        //             else return "#0072B2"
-        //         }); // Circle color based on data
-
         circles.attr("cx", function (d) { return xScaleBubble(d.Year); })
             .attr("cy", function (d) { return yScaleBubble(d.Population); })
             .attr("r", 1.5) // Adjust the radius as needed
             .style("fill", d => colorScale(d.Country)); // Circle color based on data
-
 
         // Add X-axis title
         svgBubble.append("text")
