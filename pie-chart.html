@@ -39,13 +39,14 @@
   <svg id="pie-chart" width="960" height="500"></svg>
 
   <script>
-    d3.json('data.json', d => {
-      d.population = +d.population;
+    d3.json('data/population.json', d => {
+      d.Year = +d.Year;
+      d.Population = +d.Population;
 
       return d;
     }).then(data => {
       // data = data.filter(() => data.type == "A");
-      var filteredData = data.filter((d) => d.type === "A");
+      var filteredData = data.filter((d) => d.Year === 2020);
 
       var svg = d3.select('#pie-chart'),
         width = +svg.attr('width'),
@@ -57,9 +58,8 @@
       var color = d3.scaleOrdinal(['#98abc5', '#8a89a6', '#7b6888', '#6b486b']);
 
       var pie = d3.pie()
-        .value(d => d.population)
+        .value(d => d.Population)
         .sort(null)
-        // .sort(function(a, b) { return a.age.localeCompare(b.age); })   //sort by age
         .sortValues(d3.descending);
 
       var path = d3.arc()
@@ -78,11 +78,11 @@
 
       arc.append('path')
         .attr('d', path)
-        .attr('fill', d => color(d.data.age));
+        .attr('fill', d => color(d.data.Country));
 
       arc.append('text')
         .attr('transform', d => 'translate(' + label.centroid(d) + ')')
-        .text(d => d.data.age);
+        .text(d => d.data.Country);
     });
   </script>
 </body>
