@@ -9,6 +9,26 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Add D3.js library -->
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <style>
+        /* CSS for the legend */
+        .legend {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+        }
+    </style>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -24,7 +44,9 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Population in 2020</h5>
-                    <div id="pie-chart" class="chart"></div>
+                    <div id="pie-chart" class="chart">
+                        <div id="legend" class="legend"></div>
+                    </div>
                 </div>
             </div>
             <div class="mt-4 text-left">
@@ -80,28 +102,21 @@
                 .outerRadius(Math.min(width, height) / 2 - 10)) // Adjusted outer radius to fit inside the card
             .attr("fill", function (d) { return colorScale(d.data.Country); });
 
-        // Add legend using D3 color scale
-        const legend = svg.append("g")
-            .attr("class", "legend")
-            .attr("transform", `translate(-${width / 2}, -${height / 2})`); // Adjust the translation values for the horizontal position
-
-        const legendItems = legend.selectAll(".legend-item")
+        // Generate legend
+        var legend = d3.select("#legend")
+            .selectAll("div")
             .data(countries)
             .enter()
-            .append("g")
-            .attr("class", "legend-item")
-            .attr("transform", (d, i) => `translate(0, ${i * 25})`); // Adjust the spacing between legend items
+            .append("div")
+            .attr("class", "legend-item");
 
-        legendItems.append("rect")
-            .attr("width", 20)
-            .attr("height", 20)
-            .attr("fill", d => colorScale(d)); // Use the color scale for legend items
+        legend.append("div")
+            .attr("class", "legend-color")
+            .style("background-color", function (d) { return colorScale(d); });
 
-        legendItems.append("text")
-            .attr("x", 30)
-            .attr("y", 10)
-            .text(d => d);
-
+        legend.append("div")
+            .attr("class", "legend-label")
+            .text(function (d) { return d; });
     </script>
 
     <!-- Add Bootstrap JS and Popper.js -->
