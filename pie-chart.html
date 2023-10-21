@@ -41,8 +41,12 @@
   <script>
     d3.json('data.json', d => {
       d.population = +d.population;
+
       return d;
     }).then(data => {
+      // data = data.filter(() => data.type == "A");
+      var filteredData = data.filter((d) => d.type === "A");
+
       var svg = d3.select('#pie-chart'),
         width = +svg.attr('width'),
         height = +svg.attr('height'),
@@ -67,7 +71,7 @@
         .innerRadius(radius - 40);
 
       var arc = g.selectAll('.arc')
-        .data(pie(data))
+        .data(pie(filteredData))
         .enter()
         .append('g')
         .attr('class', 'arc');
