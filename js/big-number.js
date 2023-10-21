@@ -1,4 +1,4 @@
-function createBignumber() {
+function createBigNumber() {
   // Fetch JSON data and update the Big Number Display card
   fetch('data/gdp_per_capita.json')
       .then(response => response.json())
