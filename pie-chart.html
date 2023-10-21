@@ -60,7 +60,6 @@
 
       return d;
     }).then(data => {
-      // data = data.filter(() => data.type == "A");
       var filteredData = data.filter((d) => d.Year === 2020);
 
       var svg = d3.select('#pie-chart'),
@@ -69,8 +68,6 @@
         radius = Math.min(width, height) / 2,
         g = svg.append('g')
           .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
-
-      // var color = d3.scaleOrdinal(['#98abc5', '#8a89a6', '#7b6888', '#6b486b']);
 
       // Create D3 color scale
       var countries = filteredData.map(d => d.Country);
