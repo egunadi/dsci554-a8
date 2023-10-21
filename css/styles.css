@@ -88,3 +88,22 @@ body {
     margin-left: 20px; /* Adjust the margin as needed */
     text-align: center;
 }
+
+/* CSS for the legend */
+.legend {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}

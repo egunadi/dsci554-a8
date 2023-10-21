@@ -1,115 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <title>DSCI 554 Lab Pie Chart</title>
-
-  <link href="css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css">
-
-  <link href="css/bootstrap-icons.css" rel="stylesheet">
-
-  <link rel="stylesheet" href="css/github-dark-dimmed.min.css">
-  <script src="js/highlight.min.js"></script>
-
-  <script src="js/highlightjs-copy.min.js"></script>
-  <link rel="stylesheet" href="css/highlightjs-copy.min.css" />
-
-  <script>
-    hljs.highlightAll();
-    hljs.addPlugin(new CopyButtonPlugin());
-  </script>
-
-  <script src="js/d3.min.js"></script>
-
-  <style>
-    .arc text {
-      font: 10px sans-serif;
-      text-anchor: middle;
-    }
-
-    .arc path {
-      stroke: #fff;
-    }
-
-    .legend-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .legend-color {
-      width: 20px;
-      height: 20px;
-      margin-right: 10px;
-      border: 1px solid #000; /* You can adjust the border properties */
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDP and Population Comparison between Japan, Korea, Indonesia, China, and Singapore</title>
+    <!-- Add Bootstrap CSS link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add D3.js library -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/topojson.v3.min.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/pie-chart.js"></script>
 </head>
 
 <body>
-  <div style="display: flex;">
-    <div id="legend" style="margin-right: 20px;"></div>
-    <svg id="pie-chart" width="600" height="500"></svg>
-  </div>
+    <div class="container-fluid">
+        <!-- Dashboard Header -->
+        <div class="row dashboard-header">
+            <div class="col">
+                <h1 class="mt-4">GDP and Population Comparison between Japan, Korea, Indonesia, China, and Singapore</h1>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Relative populations in 2020</h5>
+                    <div id="pie-chart" class="chart">
+                        <div id="legend" class="legend"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 text-left">
+                <a href="index.html" class="btn btn-primary btn-sm">Back to Home</a>
+            </div>
+        </div>
+    </div>
+    <script>
+      // Initial chart creation
+      createPiechart();
 
-  <script>
-    d3.json('data/population.json', d => {
-      d.Year = +d.Year;
-      d.Population = +d.Population;
+      // Handle window resize to update chart dimensions
+      window.addEventListener("resize", function () {
+          createPiechart();
+      });
+    </script>
 
-      return d;
-    }).then(data => {
-      var filteredData = data.filter((d) => d.Year === 2020);
-
-      var svg = d3.select('#pie-chart'),
-        width = +svg.attr('width'),
-        height = +svg.attr('height'),
-        radius = Math.min(width, height) / 2,
-        g = svg.append('g')
-          .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
-
-      // Create D3 color scale
-      var countries = filteredData.map(d => d.Country);
-      var color = d3.scaleOrdinal()
-        .domain(countries)
-        .range(d3.schemeTableau10);
-
-      var pie = d3.pie()
-        .value(d => d.Population)
-        .sort(null)
-        .sortValues(d3.descending);
-
-      var path = d3.arc()
-        .outerRadius(radius)
-        .innerRadius(0);  //.innerRadius(150);  //make a donut chart by changing the inner radius
-
-      var arc = g.selectAll('.arc')
-        .data(pie(filteredData))
-        .enter()
-        .append('g')
-        .attr('class', 'arc');
-
-      arc.append('path')
-        .attr('d', path)
-        .attr('fill', d => color(d.data.Country));
-
-      var legend = d3.select('#legend')
-        .selectAll('div')
-        .data(filteredData)
-        .enter()
-        .append('div')
-        .attr('class', 'legend-item');
-
-      legend.append('div')
-        .attr('class', 'legend-color')
-        .style('background-color', d => color(d.Country));
-
-      legend.append('div')
-        .attr('class', 'legend-label')
-        .text(d => d.Country);
-    });
-  </script>
+    <!-- Add Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>
