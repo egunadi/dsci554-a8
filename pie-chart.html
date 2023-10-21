@@ -39,7 +39,7 @@
   <svg id="pie-chart" width="960" height="500"></svg>
 
   <script>
-    d3.csv('data.csv', d => {
+    d3.json('data.json', d => {
       d.population = +d.population;
       return d;
     }).then(data => {
