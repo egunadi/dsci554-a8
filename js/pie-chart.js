@@ -1,7 +1,7 @@
 function createPiechart() {
     var margin = { top: 20, right: 20, bottom: 40, left: 60 };
     var width = document.getElementById("pie-chart").offsetWidth - margin.left - margin.right;
-    var height = 350 - margin.top - margin.bottom;
+    var height = 240 - margin.top - margin.bottom;
 
     // Create an SVG element
     var svg = d3.select("#pie-chart")
