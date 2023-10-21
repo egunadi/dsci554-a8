@@ -33,20 +33,24 @@
     </div>
     <script>
       // Fetch JSON data and update the Big Number Display card
-      fetch('testData.json')
+      fetch('data/gdp_per_capita.json')
           .then(response => response.json())
           .then(data => {
-              let bigNumberCard = document.getElementById('big-number-card');
-              data.forEach(item => {
-                  let displayNumber = document.createElement('p');
-                  displayNumber.classList.add('display-4');
-                  displayNumber.textContent = item.population.toLocaleString(); // Format number with commas
-                  let description = document.createElement('p');
-                  description.classList.add('card-text');
-                  description.textContent = `Population in age group ${item.age}`;
-                  bigNumberCard.appendChild(displayNumber);
-                  bigNumberCard.appendChild(description);
-              });
+            // Filter data for the year 2020
+            const gdpData2020 = data.filter(item => item.Year === 2020);
+
+            // Update the Big Number Display card with GDP per Capita for the year 2020
+            let bigNumberCard = document.getElementById('big-number-card');
+            gdpData2020.forEach(item => {
+                let displayNumber = document.createElement('p');
+                displayNumber.classList.add('display-4');
+                displayNumber.textContent = `$${item.GDP_per_Capita.toFixed(2)}`; // Format number as currency
+                let description = document.createElement('p');
+                description.classList.add('card-text');
+                description.textContent = `${item.Country}`;
+                bigNumberCard.appendChild(displayNumber);
+                bigNumberCard.appendChild(description);
+            });
           })
           .catch(error => {
               console.error('Error fetching data:', error);
