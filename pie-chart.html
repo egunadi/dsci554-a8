@@ -55,7 +55,13 @@
         g = svg.append('g')
           .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
-      var color = d3.scaleOrdinal(['#98abc5', '#8a89a6', '#7b6888', '#6b486b']);
+      // var color = d3.scaleOrdinal(['#98abc5', '#8a89a6', '#7b6888', '#6b486b']);
+
+      // Create D3 color scale
+      var countries = filteredData.map(d => d.Country);
+      var color = d3.scaleOrdinal()
+        .domain(countries)
+        .range(d3.schemeTableau10);
 
       var pie = d3.pie()
         .value(d => d.Population)
