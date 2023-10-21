@@ -31,12 +31,27 @@
     .arc path {
       stroke: #fff;
     }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .legend-color {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      border: 1px solid #000; /* You can adjust the border properties */
+    }
   </style>
 </head>
 
 <body>
-  <div>
-  <svg id="pie-chart" width="960" height="500"></svg>
+  <div style="display: flex;">
+    <div id="legend" style="margin-right: 20px;"></div>
+    <svg id="pie-chart" width="600" height="500"></svg>
+  </div>
 
   <script>
     d3.json('data/population.json', d => {
@@ -72,10 +87,6 @@
         .outerRadius(radius)
         .innerRadius(0);  //.innerRadius(150);  //make a donut chart by changing the inner radius
 
-      var label = d3.arc()
-        .outerRadius(radius - 40)
-        .innerRadius(radius - 40);
-
       var arc = g.selectAll('.arc')
         .data(pie(filteredData))
         .enter()
@@ -86,9 +97,20 @@
         .attr('d', path)
         .attr('fill', d => color(d.data.Country));
 
-      arc.append('text')
-        .attr('transform', d => 'translate(' + label.centroid(d) + ')')
-        .text(d => d.data.Country);
+      var legend = d3.select('#legend')
+        .selectAll('div')
+        .data(filteredData)
+        .enter()
+        .append('div')
+        .attr('class', 'legend-item');
+
+      legend.append('div')
+        .attr('class', 'legend-color')
+        .style('background-color', d => color(d.Country));
+
+      legend.append('div')
+        .attr('class', 'legend-label')
+        .text(d => d.Country);
     });
   </script>
 </body>
