@@ -10,7 +10,7 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://d3js.org/topojson.v3.min.js"></script>
     <link rel="stylesheet" href="css/styles.css">
-    <!-- <script src="js/pie-chart.js"></script> -->
+    <script src="js/big-number.js"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -23,7 +23,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body" id="big-number-card">
-                    <h5 class="card-title">Big Number Display</h5>
+                    <h5 class="card-title">GDP per Capita in 2020</h5>
                 </div>
             </div>
             <div class="mt-4 text-left">
@@ -32,29 +32,8 @@
         </div>
     </div>
     <script>
-      // Fetch JSON data and update the Big Number Display card
-      fetch('data/gdp_per_capita.json')
-          .then(response => response.json())
-          .then(data => {
-            // Filter data for the year 2020
-            const gdpData2020 = data.filter(item => item.Year === 2020);
-
-            // Update the Big Number Display card with GDP per Capita for the year 2020
-            let bigNumberCard = document.getElementById('big-number-card');
-            gdpData2020.forEach(item => {
-                let displayNumber = document.createElement('p');
-                displayNumber.classList.add('display-4');
-                displayNumber.textContent = `$${item.GDP_per_Capita.toFixed(2)}`; // Format number as currency
-                let description = document.createElement('p');
-                description.classList.add('card-text');
-                description.textContent = `${item.Country}`;
-                bigNumberCard.appendChild(displayNumber);
-                bigNumberCard.appendChild(description);
-            });
-          })
-          .catch(error => {
-              console.error('Error fetching data:', error);
-          });
+        // Initial chart creation
+        createBignumber();
     </script>
 
     <!-- Add Bootstrap JS and Popper.js -->
